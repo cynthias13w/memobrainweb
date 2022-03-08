@@ -1,9 +1,10 @@
 import streamlit as st
+from PIL import Image
 from streamlit_option_menu import option_menu
 import requests
 
 # Configuring page
-st.set_page_config(page_title='MemoBrain', page_icon='🧠', layout="centered", initial_sidebar_state="auto", menu_items=None)
+st.set_page_config(page_title='MemoBrain', page_icon='🧠', initial_sidebar_state="auto", menu_items=None)
 
 # Navigation Bar
 st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
@@ -33,7 +34,7 @@ st.markdown("""
 
 # Menu in SideBar
 with st.sidebar.expander('👇🏻 CLICK ME'):
-    choose = option_menu("Welcome", ["Home", "About", "MemoBrain App", "Our Project", "Contact"],
+    choose = option_menu("Welcome", ["Home", "About", "MemoBrain", "Our Project", "Contact"],
                          icons=['house', 'emoji-smile', 'app-indicator','journal-text','person lines fill'],
                          menu_icon="list", default_index=0,
                          styles={
@@ -67,14 +68,24 @@ if choose == "About":
         font-size:35px ; font-family: DomaineDisplayNarrow, Georgia, serif; color: navy;}
         </style> """, unsafe_allow_html=True)
         st.markdown('<p class="font">About the Creators</p>', unsafe_allow_html=True)
+        st.markdown("""
+    **Names**: Marko, GueHo, Vicente, Cynthia
+    """)
+        st.write("We are a group of four students attending LeWagon Data Science Bootcamp in Berlin.")
+
+        st.markdown('<p class="font">Project Details</p>', unsafe_allow_html=True)
+        st.markdown("""
+    **Project Title**: Neurocognitive Disease Prediction on Brain MRI
+
+    **Batch**: #815
+
+    **App**: MemoBrain""")
     with col2:               # To display brand log
         pass
 
-    st.write("We are a group of data science students attending LeWagon Bootcamp in Berlin.")
-
 
 # App Page
-if choose == "MemoBrain App":
+if choose == "MemoBrain":
     col1, col2 = st.columns( [0.8, 0.2])
     with col1:
         st.markdown(""" <style> .font {
@@ -96,16 +107,35 @@ if choose == "MemoBrain App":
         education = st.selectbox('SELECT LEVEL OF EDUCATION COMPLETED:',
      ('Lower than high school', 'High school graduate', 'Some college', 'College graduate', 'Beyond college'))
         score = st.number_input('SCORE ON MINI-MENTAL STATE EXAMINATION:', min_value = 0, max_value = 30, step = 1)
+        nWBV = st.number_input("SELECT nWBV:")
 
     with col2:
         dob = st.date_input("DATE OF BIRTH:")
         ses = st.selectbox('SOCIOECONOMIC STATUS:', ('1', '2', '3'))
+        etiv = st.number_input("SELECT eTIV:")
+        ASF = st.number_input("SELECT ASF:")
 
     submitted = st.button("Submit")
     with st.spinner('Please wait a few seconds...'):
         #time.sleep(5)
         if submitted:
             st.success('Here are your results:')
+
+    st.markdown("""
+    **
+
+    Note:**
+
+    **MMSE**: Mini-Mental State Examination
+
+    **SES**: Socioeconomic Status
+
+    **eTIV**: Estimated Total Intercranial Volume (mm3)
+
+    **nWBV**: Normalized Whole Brain Volume
+
+    **ASF**: Atlas Scaling Factor
+    """)
 
 # Our Project Page
 if choose == "Our Project":
@@ -117,6 +147,10 @@ if choose == "Our Project":
         st.markdown('<p class="font">Our Project</p>', unsafe_allow_html=True)
         st.subheader("Datasets")
         st.write("OASIS 1")
+
+        image = Image.open('oasis_age.png')
+        st.image(image)
+
         st.write("OASIS 2")
 
         st.subheader("Preprocessing")
