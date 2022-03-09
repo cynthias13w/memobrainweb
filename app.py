@@ -1,4 +1,5 @@
-from cgitb import html
+#from cgitb import html
+from pandas import describe_option
 import streamlit as st
 from PIL import Image
 from streamlit_option_menu import option_menu
@@ -24,7 +25,10 @@ st.markdown("""
         <a class="nav-link disabled" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://github.com/mkvph0ch/memobrain" target="_blank">📄 <b> Source code </b></a>
+        <a class="nav-link" href="https://github.com/mkvph0ch/memobrain" target="_blank">🐈‍⬛ <b> Source code </b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/mkvph0ch/memobrain" target="_blank">📄 <b> Dataset </b></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="https://www.lewagon.com/" target="_blank">🚂 <b>LeWagon</b></a>
@@ -56,13 +60,14 @@ with st.sidebar.expander('📋 CLICK TO DISPLAY MENU'):
 if choose == 'Home':
     new_title = '<p style="font-family:DomaineDisplayNarrow, Georgia, serif; text-align: center; font-size: 42px;"> Welcome to MemoBrain </p>'
     st.markdown(new_title, unsafe_allow_html=True)
-    components.html("""<p style="font-family:DomaineDisplayNarrow, Georgia, serif; text-align: center; font-size: 18px;">
-    We use powerful machine learning algorithms to aid in the diagnosis of Alzheimer's Disease.</p>""")
+    describe = '<p style="font-family:DomaineDisplayNarrow, Georgia, serif; text-align: center; font-size: 18px;"> We use powerful machine learning algorithms to aid in the diagnosis of Alzheimer&apos;s Disease. </p>'
+    st.markdown(describe, unsafe_allow_html=True)
     # col1, col2, col3 = st.columns(3)
     # with col2:
     st.image("https://media-exp1.licdn.com/dms/image/C5612AQHP5WYhYOHFRg/article-cover_image-shrink_720_1280/0/1590038951387?e=1652313600&v=beta&t=9W81QeX1liNEpegeLH9FQ0ris8coyYBnDteDOpLcxTE", use_column_width=True)
-    components.html("""<p style="font-family:DomaineDisplayNarrow, Georgia, serif; text-align: center; font-size: 18px;">
-    Click on the sidebar menu to start 👆🏼</p>""")
+    start = '<p style="font-family:DomaineDisplayNarrow, Georgia, serif; text-align: center; font-size: 18px;"> 👆🏼 Click on the sidebar menu to start </p>'
+    st.markdown(start, unsafe_allow_html=True)
+    #components.html("""<p style="font-family:DomaineDisplayNarrow, Georgia, serif; text-align: center; font-size: 18px;"> Click on the sidebar menu to start 👆🏼</p>""")
 
 # About Us Page
 if choose == "About":
@@ -126,7 +131,7 @@ if choose == "MemoBrain":
     with col2:
         birthday = str(st.date_input("DATE OF BIRTH:", date(1930, 12, 30)))
         #d = st.date_input("When's your birthday", datetime.date(2019, 7, 6))
-        SES = st.selectbox('SOCIOECONOMIC STATUS:', ('1', '2', '3'))
+        SES = st.selectbox('SOCIOECONOMIC STATUS:', ('1', '2', '3', '4', '5'))
         eTIV = st.number_input("SELECT eTIV:")
         ASF = st.number_input("SELECT ASF:")
 
@@ -137,14 +142,21 @@ if choose == "MemoBrain":
     age = today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
 
 #Encode Education
-    education = {'Lower than high school': '1',
-                'High school graduate': '2',
-                'Some college': '3',
-                'College graduate': '4',
-                'Beyond college': '5'}
+    education = {'Lower than high school': '7',
+                'High school graduate': '11',
+                'Some college': '14',
+                'College graduate': '17',
+                'Beyond college': '21'}
 
     for k, v in education.items():
         EDUC = EDUC.replace(k, v)
+
+    # for k, v in education.items():
+    #     for i in v:
+    #         if i in v:
+    #             EDUC = EDUC.replace(k, i)
+    # #6-8   1 9-12  2 13-15  3 16-19  4 20-23  5
+
 
     result = {"M/F": str(sex),
     "Age": float(age),
@@ -165,8 +177,7 @@ if choose == "MemoBrain":
             url = "https://memobrain-image-zhbxvookva-ew.a.run.app/predict"
             response = requests.get(url, result).json()
             prediction = str(response['diagnosis'])
-            st.metric("Prediction", prediction)
-            print(type(prediction))
+            #st.metric("Prediction", prediction)
 
             def prediction():
                 prediction = str(response['diagnosis'])
