@@ -1,1 +1,6 @@
 streamlit
+cgitb
+PIL
+streamlit_option_menu
+datetime
+requests
