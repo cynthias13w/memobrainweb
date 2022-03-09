@@ -1,5 +1,5 @@
 streamlit
-PIL
+pillow
 streamlit_option_menu
 datetime
 requests
