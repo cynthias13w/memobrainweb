@@ -118,24 +118,73 @@ if choose == "MemoBrain":
     col1, col2 = st.columns(2)
     with col1:
         sex = st.selectbox('SEX:', ('M', 'F'))
-        education = st.selectbox('SELECT LEVEL OF EDUCATION COMPLETED:',
+        EDUC = st.selectbox('SELECT LEVEL OF EDUCATION COMPLETED:',
      ('Lower than high school', 'High school graduate', 'Some college', 'College graduate', 'Beyond college'))
-        score = st.number_input('SCORE ON MINI-MENTAL STATE EXAMINATION:', min_value = 0, max_value = 30, step = 1)
+        MMSE = st.number_input('SCORE ON MINI-MENTAL STATE EXAMINATION:', min_value = 0, max_value = 30, step = 1)
         nWBV = st.number_input("SELECT nWBV:")
 
     with col2:
-        dob = st.date_input("DATE OF BIRTH:")
-        ses = st.selectbox('SOCIOECONOMIC STATUS:', ('1', '2', '3'))
-        etiv = st.number_input("SELECT eTIV:")
+        birthday = str(st.date_input("DATE OF BIRTH:", date(1930, 12, 30)))
+        #d = st.date_input("When's your birthday", datetime.date(2019, 7, 6))
+        SES = st.selectbox('SOCIOECONOMIC STATUS:', ('1', '2', '3'))
+        eTIV = st.number_input("SELECT eTIV:")
         ASF = st.number_input("SELECT ASF:")
+
+    # API
+    #birthday = datetime(year=int(birthday[0:4]), month=int(birthday[4:6]), day=int(birthday[6:8]))
+    birthday = datetime(year=int(birthday[0:4]), month=int(birthday[5:7]), day=int(birthday[8:10]))
+    today = date.today()
+    age = today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
+
+#Encode Education
+    education = {'Lower than high school': '1',
+                'High school graduate': '2',
+                'Some college': '3',
+                'College graduate': '4',
+                'Beyond college': '5'}
+
+    for k, v in education.items():
+        EDUC = EDUC.replace(k, v)
+
+    result = {"M/F": str(sex),
+    "Age": float(age),
+    "EDUC": float(EDUC),
+    "SES": float(SES),
+    "MMSE": float(MMSE),
+    "eTIV": float(eTIV),
+    "nWBV": float(nWBV),
+    "ASF": float(ASF)
+    }
 
     submitted = st.button("Submit")
     with st.spinner('Please wait a few seconds...'):
         #time.sleep(5)
         if submitted:
+
             st.success('Here are your results:')
+            url = "https://memobrain-image-zhbxvookva-ew.a.run.app/predict"
+            response = requests.get(url, result).json()
+            prediction = str(response['diagnosis'])
+            st.metric("Prediction", prediction)
+            print(type(prediction))
+
+            def prediction():
+                prediction = str(response['diagnosis'])
+                if prediction == '0':
+                    return("You are healthy 😊")
+                else:
+                    return("You may have Alzheimer's disease")
+
+            #st.metric("OUR PREDICTION", prediction)
+            st.metric("OUR PREDICTION", prediction())
+
+
+
 
     st.markdown("""
+
+
+
     **Note:**
 
     **MMSE**: Mini-Mental State Examination
@@ -160,7 +209,7 @@ if choose == "Our Project":
         st.write("Here, we provide a description of how we went about the project. Have fun reading!")
         st.subheader("Datasets")
         st.write("OASIS 1 and OASIS 2")
-        st.write("Our datasets consisted of Oasis 1 and Oasis 2. The main difference between the two datasets are. Since the greatest known risk factor of AD is increasing age, the majority of people with Alzheimer's are 65 and older. ")
+        st.write("Our datasets consisted of Oasis 1 and Oasis 2. The main difference between the two datasets are the types of imaging: longitudinal and cross-sectional. Since the greatest known risk factor of AD is increasing age, the majority of people with Alzheimer's are generally 65 and older as shown in the diagram below.")
 
         image = Image.open('oasis_age.png')
         st.image(image)
@@ -182,7 +231,7 @@ if choose == "Our Project":
         """)
 
         st.subheader("Deep Learning")
-        st.write("To process our MRI images, we went forward for Convolutional Neural Networks.")
+        st.write("To process our MRI images, we went forward with Convolutional Neural Networks.")
 
 # Contact Page
 if choose == "Contact":
@@ -201,17 +250,7 @@ if choose == "Contact":
         if submitted:
             st.write('Thanks for your contacting us. We will respond to your questions or inquiries as soon as possible!')
 
-# API
-result = {
-"M/F": str(sex),
-"Age": float(age),
-"EDUC": float(EDUC),
-"SES": float(SES),
-"MMSE": float(MMSE),
-"eTIV": float(eTIV),
-"nWBV": float(nWBV),
-"ASF": float(ASF)
-}
+
 
 # AN EXAMPLE
 # url = 'example'
@@ -220,8 +259,3 @@ result = {
 # fare = "$" + str(round(response['fare'], 2))
 # st.metric("ESTIMATED COSTS", fare)
 # st.metric("ESTIMATED DISTANCE", distance_func(lat1,lon1,lat2,lon2))
-
-url = "https://memobrain-image-zhbxvookva-ew.a.run.app/predict"
-response = requests.get(url, result).json()
-prediction = response[0]
-st.metric("OUR PREDICTION", prediction)
