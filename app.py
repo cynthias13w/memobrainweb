@@ -202,6 +202,16 @@ if choose == "Contact":
             st.write('Thanks for your contacting us. We will respond to your questions or inquiries as soon as possible!')
 
 # API
+result = {
+"M/F": str(sex),
+"Age": float(age),
+"EDUC": float(EDUC),
+"SES": float(SES),
+"MMSE": float(MMSE),
+"eTIV": float(eTIV),
+"nWBV": float(nWBV),
+"ASF": float(ASF)
+}
 
 # AN EXAMPLE
 # url = 'example'
@@ -211,5 +221,7 @@ if choose == "Contact":
 # st.metric("ESTIMATED COSTS", fare)
 # st.metric("ESTIMATED DISTANCE", distance_func(lat1,lon1,lat2,lon2))
 
-url = 'example'
-response = requests.get(url, dictionary).json()
+url = "https://memobrain-image-zhbxvookva-ew.a.run.app/predict"
+response = requests.get(url, result).json()
+prediction = response[0]
+st.metric("OUR PREDICTION", prediction)
