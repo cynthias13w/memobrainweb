@@ -28,7 +28,7 @@ st.markdown("""
         <a class="nav-link" href="https://github.com/mkvph0ch/memobrain" target="_blank">🐈‍⬛ <b> Source code </b></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://github.com/mkvph0ch/memobrain" target="_blank">📄 <b> Dataset </b></a>
+        <a class="nav-link" href="https://www.oasis-brains.org/" target="_blank">📄 <b> Dataset </b></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="https://www.lewagon.com/" target="_blank">🚂 <b>LeWagon</b></a>
@@ -42,7 +42,7 @@ st.markdown("""
 # Menu in SideBar
 with st.sidebar.expander('📋 CLICK TO DISPLAY MENU'):
 #with st.sidebar():
-    choose = option_menu(None, ["Home", "About", "MemoBrain", "Our Project", "Contact"],
+    choose = option_menu(None, ["Home", "About", "Our App", "Our Project", "Contact"],
                             icons=['house', 'emoji-smile', 'app-indicator','journal-text','person lines fill'],
                             menu_icon="list", default_index=0, orientation='vertical',
                             styles={
@@ -104,13 +104,13 @@ if choose == "About":
 
 
 # App Page
-if choose == "MemoBrain":
+if choose == "Our App":
     col1, col2 = st.columns( [0.8, 0.2])
     with col1:
         st.markdown(""" <style> .font {
         font-size:35px ; font-family: DomaineDisplayNarrow, Georgia, serif; color: navy;}
         </style> """, unsafe_allow_html=True)
-        st.markdown('<p class="font"> <img src="https://img.icons8.com/pastel-glyph/64/000000/brain--v1.png"/>  MemoBrain App </p>', unsafe_allow_html=True)
+        st.markdown('<p class="font"> <img src="https://img.icons8.com/pastel-glyph/64/000000/brain--v1.png"/>  MemoBrain </p>', unsafe_allow_html=True)
         st.subheader("Please enter the following information:")
         st.markdown("""
 
@@ -125,15 +125,15 @@ if choose == "MemoBrain":
         sex = st.selectbox('SEX:', ('M', 'F'))
         EDUC = st.selectbox('SELECT LEVEL OF EDUCATION COMPLETED:',
      ('Lower than high school', 'High school graduate', 'Some college', 'College graduate', 'Beyond college'))
-        MMSE = st.number_input('SCORE ON MINI-MENTAL STATE EXAMINATION:', min_value = 0, max_value = 30, step = 1)
-        nWBV = st.number_input("SELECT nWBV:")
+        MMSE = st.number_input('SCORE ON MINI-MENTAL STATE EXAMINATION:', min_value = 0, max_value = 30, value = 28, step = 1)
+        nWBV = st.number_input("SELECT nWBV:", value = 0.728)
 
     with col2:
-        birthday = str(st.date_input("DATE OF BIRTH:", date(1930, 12, 30)))
+        birthday = str(st.date_input("DATE OF BIRTH:", date(1960, 12, 1)))
         #d = st.date_input("When's your birthday", datetime.date(2019, 7, 6))
         SES = st.selectbox('SOCIOECONOMIC STATUS:', ('1', '2', '3', '4', '5'))
-        eTIV = st.number_input("SELECT eTIV:")
-        ASF = st.number_input("SELECT ASF:")
+        eTIV = st.number_input("SELECT eTIV:", value = 1500)
+        ASF = st.number_input("SELECT ASF:", value = 1.194)
 
     # API
     #birthday = datetime(year=int(birthday[0:4]), month=int(birthday[4:6]), day=int(birthday[6:8]))
@@ -220,9 +220,9 @@ if choose == "Our Project":
         st.write("Here, we provide a description of how we went about the project. Have fun reading!")
         st.subheader("Datasets")
         st.write("OASIS 1 and OASIS 2")
-        st.write("Our datasets consisted of Oasis 1 and Oasis 2. The main difference between the two datasets are the types of imaging: longitudinal and cross-sectional. Since the greatest known risk factor of AD is increasing age, the majority of people with Alzheimer's are generally 65 and older as shown in the diagram below.")
+        st.write("Our datasets consisted of Oasis 1 and Oasis 2. The main difference between the two datasets lies in the fact that they are cross-sectional and longitudinal collections respectively. We first visualized our metadata using matplotlib, seaborn and plotly packages. Since the greatest known risk factor of AD is increasing age, most people with Alzheimer's are generally 65 and older. This is reflected in the histogram below which was generated from one of the datasets.")
 
-        image = Image.open('oasis_age.png')
+        image = Image.open('notebooks/oasis1_age.png')
         st.image(image)
 
         st.subheader("Preprocessing")
@@ -236,8 +236,8 @@ if choose == "Our Project":
         - Support Vector Classifier
         - KNeighborsClassifier
         - Decision Tree Classifier
-        - AdaBoostClassifier()
-        - RandomForestClassifier()
+        - AdaBoostClassifier
+        - RandomForestClassifier
         - AdaBoost
         """)
 
@@ -260,6 +260,7 @@ if choose == "Contact":
         submitted = st.button('Submit')
         if submitted:
             st.write('Thanks for your contacting us. We will respond to your questions or inquiries as soon as possible!')
+
 
 
 
