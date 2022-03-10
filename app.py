@@ -124,7 +124,7 @@ if choose == "Our App":
     with col1:
         sex = st.selectbox('SEX:', ('M', 'F'))
         EDUC = st.selectbox('SELECT LEVEL OF EDUCATION COMPLETED:',
-     ('Lower than high school', 'High school graduate', 'Some college', 'College graduate', 'Beyond college'))
+     ('Lower than high school', 'Graduated High school', 'Some college', 'College graduate', 'Beyond college'))
         MMSE = st.number_input('SCORE ON MINI-MENTAL STATE EXAMINATION:', min_value = 0, max_value = 30, value = 28, step = 1)
         nWBV = st.number_input("SELECT nWBV:", value = 0.728)
 
@@ -143,7 +143,7 @@ if choose == "Our App":
 
 #Encode Education
     education = {'Lower than high school': '7',
-                'High school graduate': '11',
+                'Graduated High school': '11',
                 'Some college': '14',
                 'College graduate': '17',
                 'Beyond college': '21'}
@@ -224,6 +224,9 @@ if choose == "Our Project":
 
         image = Image.open('notebooks/oasis1_age.png')
         st.image(image)
+        st.image(Image.open('notebooks/oasis1_ses.png'))
+        st.image(Image.open('notebooks/oasis1_education.png'))
+
 
         st.subheader("Preprocessing")
         st.markdown(""" Owing to lack of samples of people with 'moderate' dementia, we decided to reduce our four CDR classes to two classes: whether a person has Alzheimer's Disease or not. """)
