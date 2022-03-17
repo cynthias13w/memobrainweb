@@ -1,5 +1,6 @@
 #from cgitb import html
 from pandas import describe_option
+from pyparsing import col
 import streamlit as st
 from PIL import Image
 from streamlit_option_menu import option_menu
@@ -69,39 +70,84 @@ if choose == 'Home':
     st.markdown(start, unsafe_allow_html=True)
     #components.html("""<p style="font-family:DomaineDisplayNarrow, Georgia, serif; text-align: center; font-size: 18px;"> Click on the sidebar menu to start 👆🏼</p>""")
 
-# About Us Page
+    st.markdown("[![Github](https://img.icons8.com/bubbles/2x/github.png)](https://github.com/mkvph0ch/memobrain) Click to see Under The Hood!")
+    st.markdown(" Click for our Streamlit code  [![Github](https://img.icons8.com/bubbles/2x/code.png)](https://github.com/cynthias13w/memobrainweb)")
+
 if choose == "About":
     # Title
     new_title = '<p style="font-family:DomaineDisplayNarrow, Georgia, serif; text-align: center; font-size: 42px;"> Welcome to MemoBrain </p>'
     st.markdown(new_title, unsafe_allow_html=True)
-    col1, col2 = st.columns( [0.8, 0.2])
-    with col1:               # To display the header text using css style
+    #col1, col2 = st.columns( [0.8, 0.2])
+    #with col1:               # To display the header text using css style
 
-        st.markdown('<p class="font">Project Details</p>', unsafe_allow_html=True)
-        st.markdown("""
-    **Project Title**: Neurocognitive Disease Prediction on Brain MRI
 
-    **Batch**: #815
+
+    st.markdown('<p class="font">About the Creators</p>', unsafe_allow_html=True)
+    st.write("Hello there! We are Marko, GueHo, Vicente and Cynthia! We attended LeWagon Data Science Bootcamp in Berlin from January 2022 to March 2022. Thank you for visiting our website! ")
+    st.write("Here we are pleased to present our final project which encompasses the skills that we acquired during the bootcamp including data analysis, cleaning, and visualization with NumPy and Pandas, machine learning and deep learning with Scikit-learn and Tensorflow, cloud computing with Docker and Google Cloud Platform, and front-end development with Streamlit.")
+    marko = Image.open('marko.jpg.png')
+    gueho = Image.open('gueho.jpg')
+    vicente = Image.open('vicente.jpg.png')
+    cynthia = Image.open('cynthia.jpg.png')
+    st.write(" ")
+    st.write(" ")
+
+    col11, col22, col33, col44 = st.columns(4)
+    with col11:
+        st.markdown("""**Marko**""")
+        st.image(marko)
+        st.markdown("[![Github](https://img.icons8.com/small/2x/github.png)](https://github.com/mkvph0ch/)")
+
+    with col22:
+        st.markdown("""**GueHo**""")
+        st.image(gueho)
+        st.markdown("[![Github](https://img.icons8.com/small/2x/github.png)](https://github.com/Gueho/)[![LinkedIn](https://icons.iconarchive.com/icons/danleech/simple/24/linkedin-icon.png)](https://www.linkedin.com/in/guehojang/)")
+
+    with col33:
+        st.markdown("""**Vicente**""")
+        st.image(vicente)
+        st.markdown("[![Github](https://img.icons8.com/small/2x/github.png)](https://github.com/vicentefuhrmann/)[![LinkedIn](https://icons.iconarchive.com/icons/danleech/simple/24/linkedin-icon.png)](https://www.linkedin.com/in/vicente-fuhrmann/)")
+
+    with col44:
+        st.markdown("""**Cynthia**""")
+        st.image(cynthia)
+        st.markdown("[![Github](https://img.icons8.com/small/2x/github.png)](https://github.com/cynthias13w/)[![LinkedIn](https://icons.iconarchive.com/icons/danleech/simple/24/linkedin-icon.png)](https://www.linkedin.com/in/cynthias13w/)")
+
+
+#with col2:               # To display brand log
+    #pass
+
+    st.markdown("""
+
+    Please do not hesitate to contact us 😄
+
+
+
+    ~
+    """)
+    st.markdown('<p class="font">Project Details</p>', unsafe_allow_html=True)
+    st.markdown("""
+    **Project Title**: Neurocognitive Disease Prediction on Metadata and Brain MRI
+
+    **LeWagon Batch**: #815
 
     **App**: MemoBrain
 
-    **ML model**: Random forest classifier""")
+    **ML model**: Random Forest Classifier""")
 
-        st.markdown(""" <style> .font {
-            font-size:35px ; text-align: cennter; font-family: DomaineDisplayNarrow, Georgia, serif; color: navy;}
+    st.markdown(""" <style> .font {
+            font-size:35px ; text-align: center; font-family: DomaineDisplayNarrow, Georgia, serif; color: navy;}
             </style> """, unsafe_allow_html=True)
-        st.markdown('<p class="font">About the Creators</p>', unsafe_allow_html=True)
-        st.markdown("""
-    **Names**: Marko, GueHo, Vicente, Cynthia
-    """)
-        st.write("We are a group of four students attending LeWagon Data Science Bootcamp in Berlin.")
-        image_team = Image.open('Memobrain_Demoday.png')
-        st.image(image_team)
 
+    st.markdown('<p class="font">About our Project</p>', unsafe_allow_html=True)
+    st.markdown(""" To this day, Alzheimer’s Disease (AD) is diagnosed through medical history, and cognitive and physical tests. To support this diagnosis, brain scans such as Magnetic Resonance Imaging (MRI) can be performed.
+    However, it is still a challenge to distinguish between Alzheimer’s and no Alzheimer’s.
 
-    with col2:               # To display brand log
-        pass
+    But what if we could train machines to yield a predictive diagnosis? How can a machine compare to human eyes?
 
+    Enter MemoBrain. MemoBrain can predict whether a person may have Alzheimer’s or not based on a total of eight features (sex, age, education, socioeconomic status, score on Mini-Mental State Examination, estimated total intercranial volume (mm3), normalized whole brain volume, and atlas scaling factor).
+
+        """)
 
 # App Page
 if choose == "Our App":
@@ -219,7 +265,6 @@ if choose == "Our Project":
         st.markdown('<p class="font">Our Project</p>', unsafe_allow_html=True)
         st.write("Here, we provide a description of how we went about the project. Have fun reading!")
         st.subheader("Datasets")
-        st.write("OASIS 1 and OASIS 2")
         st.write("Our datasets consisted of Oasis 1 and Oasis 2. The main difference between the two datasets lies in the fact that they are cross-sectional and longitudinal collections respectively. We first visualized our metadata using matplotlib, seaborn and plotly packages. Since the greatest known risk factor of AD is increasing age, most people with Alzheimer's are generally 65 and older. This is reflected in the histogram below which was generated from one of the datasets.")
 
         image = Image.open('notebooks/oasis1_age.png')
@@ -228,12 +273,12 @@ if choose == "Our Project":
         st.image(Image.open('notebooks/oasis1_education.png'))
 
 
-        st.subheader("Preprocessing")
+        st.subheader("Preprocessing of Metadata")
         st.markdown(""" Owing to lack of samples of people with 'moderate' dementia, we decided to reduce our four CDR classes to two classes: whether a person has Alzheimer's Disease or not. """)
 
         st.subheader("Machine Learning")
         st.markdown("""
-        Since our problem was turned into a binary classification problem, we set out to explore the following supervised machine learning models:
+        We set out to explore the following supervised machine learning classification models:
 
         - Logistic Regression
         - Support Vector Classifier
@@ -242,10 +287,20 @@ if choose == "Our Project":
         - AdaBoostClassifier
         - RandomForestClassifier
         - AdaBoost
+
+        For each model, we gridsearched the best parameters. Our Random Forest Classifier yielded the highest recall score 85%. After fitting the model with the best parameters, we built an API. Our product, a predictive app, finally lies in the 'Our App' section of this website.
         """)
 
         st.subheader("Deep Learning")
-        st.write("To process our MRI images, we went forward with Convolutional Neural Networks.")
+        st.markdown("""Since our MRI images dataset was a whopping 85GB of data, we first compressed our images. This involved converting 3D images to 2D as well as reducing the number of pixel colours. We also joined three different planes of brain images (transverse, sagittal and coronal) together as shown in the figure below.
+        """)
+
+        brains = Image.open('image.png')
+        st.image(brains)
+
+        st.markdown("""The joined images were then fed to a convolutional neural network. After grid searching and applying the best parameters, our model achieved 80% accuracy!""")
+        st.write('Thank you for reading.')
+        st.write('Do not hesitate to reach out to us for more information.')
 
 # Contact Page
 if choose == "Contact":
